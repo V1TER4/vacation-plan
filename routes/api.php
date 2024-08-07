@@ -27,5 +27,9 @@ Route::group(['middleware' => 'token'], function($router) {
         $router->get('/', 'VacationPlanController@list');
         $router->get('/{id}', 'VacationPlanController@show');
         $router->post('/', 'VacationPlanController@create');
+        $router->put('/{id}', 'VacationPlanController@update');
+        $router->delete('/{id}', 'VacationPlanController@delete');
+        
+        $router->post('/export', 'PdfController@export');
     });
 });

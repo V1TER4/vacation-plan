@@ -17,6 +17,7 @@ class AddVacationPlanTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
+            $table->string('location');
             $table->date('date');
             $table->timestamps();
         });
