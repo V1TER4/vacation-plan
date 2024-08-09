@@ -40,3 +40,6 @@ Essa aplicação serve para você planejar suas viagens. Voce poderá definir pa
 PHP 8.3
 Laravel 8.83
 MySQL
+
+## Documentation
+[Documentação de uso da API](https://documenter.getpostman.com/view/19647757/2sA3s3GqfW)
