@@ -82,6 +82,7 @@ class VacationPlanController extends Controller
                     $participants = Participant::create($participant);
                 }
             }
+            $vacation->load('participant');
         } catch (\Exception $e) {
             \Log::info($e->getMessage());
             DB::rollback();

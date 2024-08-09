@@ -18,7 +18,7 @@ class AuthController extends Controller
 
     public function auth(Request $request){
         $user = User::where('email', $request->get('email'))->first();
-        if($user->status_id != Statuses::ATIVO) return response()->json(['data' => null, 'msg' => ['Usuário não está ativo'], 'statusCode' => 401], 401);
+        if(!isset($user) || $user->status_id != Statuses::ATIVO) return response()->json(['data' => null, 'msg' => ['Usuário não está ativo ou não inexistente'], 'statusCode' => 401], 401);
 
         if(!$user) return response()->json(['data' => null, 'msg' => ['Usuário/Senha inválidos'], 'statusCode' => 401], 401);
         

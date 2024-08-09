@@ -26,7 +26,7 @@ class PdfController extends Controller
             
             $filePath = 'public/vacation_plans/vacation_plans_'.date('Ymd_His').'.pdf';
             $test = Storage::put($filePath, $pdf->output());
-        } catch (\Exception $th) {
+        } catch (\Exception $e) {
             return response()->json(['msg'=> null, 'data'=> $e->getMessage(), 'statusCode' => 400],400);
         }
 
