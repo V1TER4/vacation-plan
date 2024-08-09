@@ -10,18 +10,20 @@ use Hash;
 
 class AuthController extends Controller
 {
+    protected $rules = [
+        'name' => 'Required|Max:255',
+        'email' => 'Required|Max:255',
+        'password' => 'Required|Max:255'
+    ];
+
     public function auth(Request $request){
         $user = User::where('email', $request->get('email'))->first();
         if($user->status_id != Statuses::ATIVO) return response()->json(['data' => null, 'msg' => ['Usuário não está ativo'], 'statusCode' => 401], 401);
 
-        if(!$user){
-            return response()->json(['data' => null, 'msg' => ['Usuário/Senha inválidos'], 'statusCode' => 401], 401);
-        }
+        if(!$user) return response()->json(['data' => null, 'msg' => ['Usuário/Senha inválidos'], 'statusCode' => 401], 401);
         
         $password = Hash::check($request->get('password'), $user->password);
-        if(!$password){
-            return response()->json(['data' => null, 'msg' => ['Usuário/Senha inválidos'], 'statusCode' => 401], 401);
-        }
+        if(!$password) return response()->json(['data' => null, 'msg' => ['Usuário/Senha inválidos'], 'statusCode' => 401], 401);
         
         $token = self::token_generate($user);
 
@@ -44,5 +46,18 @@ class AuthController extends Controller
             'exp' => time() + $time // Expiration time
         ];
         return JWT::encode($payload, env('JWT_SECRET'), 'HS256');
+    }
+
+    public function create(Request $request){
+        $response = parent::findErrors($request);
+        if($response) return $response ;
+
+        $exist = User::where('email', $request->get('email'))->exists();
+        if ($exist) return response()->json(['data' => null, 'msg' => ['Usuário já cadastrado'], 'statusCode' => 401], 401);
+
+        $request['password'] = Hash::make($request->password);
+        $user = User::create($request->all());
+
+        return $user ;
     }
 }

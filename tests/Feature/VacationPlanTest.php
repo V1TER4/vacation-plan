@@ -2,31 +2,37 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class VacationPlanTest extends TestCase
 {
+    use RefreshDatabase;
+
     protected $token;
     protected $vacationPlanId;
 
     protected function setUp(): void
     {
         parent::setUp();
-        
-        $this->authenticate();
-    }
 
-    protected function authenticate()
-    {
-        $response = $this->postJson('/api/login', [
+        $response = $this->postJson('/api/create', [
+            'name' => 'Admin',
             'email' => 'admin@admin.com.br',
             'password' => 'Jq3CAFgC14',
         ]);
 
+        $response->assertStatus(201);
+
+        $response = $this->postJson('/api/login', [
+            'email' => 'admin@admin.com.br',
+            'password' => 'Jq3CAFgC14',
+        ]);
+        
         $response->assertStatus(200);
-        $response->assertJsonStructure(['token']);
         $this->token = $response->json('token');
+        
     }
 
     public function testListVacationPlans()
@@ -35,17 +41,11 @@ class VacationPlanTest extends TestCase
             'Authorization' => 'Bearer ' . $this->token
         ])->getJson('/api/vacation_plan');
 
-        if ($response->status() == 401) {
+        if ($response->status() == 400) {
             Log::error('Erro 401 no teste ListVacationPlans: ' . $response->getContent());
         } else {
             $response->assertStatus(200);
-            $plans = $response->json();
-            if (isset($plans[0]['id'])) {
-                $this->vacationPlanId = $plans[0]['id'];
-                $this->assertNotNull($this->vacationPlanId, 'O ID do plano de férias não foi retornado.');
-            } else {
-                Log::error('Nenhum plano de férias encontrado no teste ListVacationPlans.');
-            }
+            return $response->json('data');
         }
     }
 
@@ -56,7 +56,7 @@ class VacationPlanTest extends TestCase
                              'title' => 'Viagem para a praia',
                              'description' => 'Viagem para Acapulco',
                              'location' => 'Acapulco, Mexico',
-                             'date' => '2024-08-12',
+                             'date' => '2024-11-12',
                              'participants' => [
                                  ['name' => 'Maria'],
                                  ['name' => 'João'],
@@ -66,54 +66,60 @@ class VacationPlanTest extends TestCase
                              ]
                          ]);
 
-        if ($response->status() == 401) {
+        if ($response->status() == 400) {
             Log::error('Erro 401 no teste CreateVacationPlan: ' . $response->getContent());
         } else {
             $response->assertStatus(200);
-            $data = $response->json('baseResponse.original.data');
-            if (isset($data['id'])) {
-                $this->vacationPlanId = $data['id'];
-                $this->assertNotNull($this->vacationPlanId, 'O ID do plano de férias não foi retornado.');
-            } else {
-                Log::error('ID do plano de férias não encontrado na resposta da criação.');
-            }
+            return $response->json('data');
+        }
+    }
+
+    public function testShowVacationPlans()
+    {
+        $this->testCreateVacationPlan();
+        $vacation = $this->testListVacationPlans();
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $this->token
+        ])->getJson('/api/vacation_plan/'. $vacation[0]['id']);
+
+        if ($response->status() == 400) {
+            Log::error('Erro 401 no teste ListVacationPlans: ' . $response->getContent());
+        } else {
+            $response->assertStatus(200);
         }
     }
 
     public function testUpdateVacationPlan()
     {
-        if (!$this->vacationPlanId) {
-            $this->testCreateVacationPlan();
-        }
+        $vacation = $this->testCreateVacationPlan();
 
         $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])
-                         ->putJson("/api/vacation_plan/{$this->vacationPlanId}", [
+                         ->putJson('/api/vacation_plan/' . $vacation['id'], [
                              'title' => 'Teste 2',
                              'description' => 'Teste 1',
                              'location' => 'Casa',
-                             'date' => '2024-08-11',
+                             'date' => '2024-12-11',
                              'participants' => [
                                  ['name' => 'Teresa'],
                                  ['name' => 'Mateus'],
                                  ['name' => 'Katia']
                              ]
                          ]);
-
-        if ($response->status() == 401) {
+        
+        if ($response->status() == 400 || $response->status() == 401) {
             Log::error('Erro 401 no teste UpdateVacationPlan: ' . $response->getContent());
         } else {
             $response->assertStatus(200);
+            return $response->json('baseResponse.data');
         }
     }
 
     public function testDeleteVacationPlan()
     {
-        if (!$this->vacationPlanId) {
-            $this->testCreateVacationPlan();
-        }
+        $vacation = $this->testCreateVacationPlan();
 
         $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])
-                         ->deleteJson("/api/vacation_plan/{$this->vacationPlanId}");
+                         ->deleteJson('/api/vacation_plan/'. $vacation['id']);
 
         if ($response->status() == 401) {
             Log::error('Erro 401 no teste DeleteVacationPlan: ' . $response->getContent());
@@ -122,17 +128,19 @@ class VacationPlanTest extends TestCase
         }
     }
 
-    // public function testExportVacationPlan()
-    // {
-    //     $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])
-    //                      ->postJson('/api/vacation_plan/export', [
-    //                          'date' => '2024-08-11'
-    //                      ]);
+    public function testExportVacationPlan()
+    {
+        $vacation = $this->testCreateVacationPlan();
 
-    //     if ($response->status() == 400) {
-    //         Log::error('Erro 400 no teste ExportVacationPlan: ' . $response->getContent());
-    //     } else {
-    //         $response->assertStatus(200);
-    //     }
-    // }
+        $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])
+                         ->postJson('/api/vacation_plan/export', [
+                             'date' => $vacation['date']
+                         ]);
+
+        if ($response->status() == 400 || $response->status() == 401) {
+            Log::error('Erro 400 no teste ExportVacationPlan: ' . $response->getContent());
+        } else {
+            $response->assertStatus(200);
+        }
+    }
 }

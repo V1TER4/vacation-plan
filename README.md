@@ -34,6 +34,7 @@ Essa aplicação serve para você planejar suas viagens. Voce poderá definir pa
     127.0.0.1       dev.vacation-plan
 * Inicie os serviços do php, mysql e nginx
 * Na pasta do projeto execute os comandos artisan migrate, db:seed e jwt:secret
+* Para testar o sistema rode o comando php artisan test
 
 ## Linguagens/Tecnologia utilizadas
 PHP 8.3
