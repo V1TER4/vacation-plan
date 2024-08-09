@@ -72,6 +72,7 @@ class VacationPlanController extends Controller
             if (isset($request->title)) $vacation->title = $request->title;
             if (isset($request->date)) $vacation->date = $request->date;
             if (isset($request->location)) $vacation->location = $request->location;
+            if (isset($request->description)) $vacation->description = $request->description;
 
             $vacation->save();
 
