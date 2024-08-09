@@ -22,7 +22,7 @@ class AuthController extends Controller
         if(!$password){
             return response()->json(['data' => null, 'msg' => ['Usuário/Senha inválidos'], 'statusCode' => 401], 401);
         }
-
+        
         $token = self::token_generate($user);
 
         $user->token = $token;

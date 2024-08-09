@@ -23,11 +23,11 @@ class PdfController extends Controller
             if ($vacationPlans->count() == 0) return response()->json(['msg'=> 'Vacation Plan not found!', 'data'=> null, 'statusCode' => 401],401);
     
             $pdf = PDF::loadView('PDF.pdf', compact('vacationPlans'));
-    
+            
             $filePath = 'public/vacation_plans/vacation_plans_'.date('Ymd_His').'.pdf';
             $test = Storage::put($filePath, $pdf->output());
         } catch (\Exception $th) {
-            return response()->json(['msg'=> null, 'data'=> $e->getMessage(), 'statusCode' => 200],200);
+            return response()->json(['msg'=> null, 'data'=> $e->getMessage(), 'statusCode' => 400],400);
         }
 
         return response()->json(['msg'=> 'Export success!', 'data'=> null, 'statusCode' => 200],200);

@@ -50,7 +50,7 @@ class VacationPlanController extends Controller
             }
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json(['data'=> null, 'statusCode' => 200, 'msg' => $e->getMessage()],200);
+            return response()->json(['data'=> null, 'statusCode' => 401, 'msg' => $e->getMessage()],401);
         }
         DB::commit();
 
@@ -83,8 +83,9 @@ class VacationPlanController extends Controller
                 }
             }
         } catch (\Exception $e) {
+            \Log::info($e->getMessage());
             DB::rollback();
-            return response()->json(['data'=> null, 'statusCode' => 200, 'msg' => $e->getMessage()],200);
+            return response()->json(['data'=> null, 'statusCode' => 401, 'msg' => $e->getMessage()],401);
         }
         DB::commit();
 

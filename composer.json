@@ -9,10 +9,12 @@
         "barryvdh/laravel-dompdf": "^2.2",
         "firebase/php-jwt": "^6.10",
         "fruitcake/laravel-cors": "^2.0",
+        "glowy/strings": "^5.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
+        "phpbench/dom": "^0.3.3",
         "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {

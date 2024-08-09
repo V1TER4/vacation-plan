@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d32f200a65eb7e1cffb976a2021b614e",
+    "content-hash": "1e018ef8c7ab1e05b277d94700e60018",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -843,6 +843,122 @@
             ],
             "abandoned": true,
             "time": "2022-02-23T14:25:13+00:00"
+        },
+        {
+            "name": "glowy/macroable",
+            "version": "v4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/glowyphp/macroable.git",
+                "reference": "05f3a7c407f2f529f837b3f064bfc313b1cc71f6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/glowyphp/macroable/zipball/05f3a7c407f2f529f837b3f064bfc313b1cc71f6",
+                "reference": "05f3a7c407f2f529f837b3f064bfc313b1cc71f6",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "9.0.0",
+                "ext-iconv": "*",
+                "pestphp/pest": "^1.21.1",
+                "phpstan/phpstan": "^1.8.0",
+                "symfony/var-dumper": "^6.1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Glowy\\Macroable\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Romanenko",
+                    "email": "awilum@msn.com",
+                    "homepage": "https://awilum.github.io/"
+                }
+            ],
+            "description": "Macroable Component is a trait that, gives you the ability in effect to add new methods to a class at runtime.",
+            "keywords": [
+                "glowy",
+                "glowyphp",
+                "macroable",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/glowyphp/macroable/issues",
+                "source": "https://github.com/glowyphp/macroable"
+            },
+            "time": "2022-07-02T19:32:02+00:00"
+        },
+        {
+            "name": "glowy/strings",
+            "version": "v5.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/glowyphp/strings.git",
+                "reference": "f9666b7faf7e1d160939db40c742e007c65d9759"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/glowyphp/strings/zipball/f9666b7faf7e1d160939db40c742e007c65d9759",
+                "reference": "f9666b7faf7e1d160939db40c742e007c65d9759",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "glowy/macroable": "^4.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "9.0.0",
+                "ext-iconv": "*",
+                "pestphp/pest": "^1.21.1",
+                "phpstan/phpstan": "^1.8.0",
+                "symfony/var-dumper": "^6.1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Glowy\\Strings\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Romanenko",
+                    "email": "awilum@msn.com",
+                    "homepage": "https://github.com/Awilum"
+                }
+            ],
+            "description": "Strings Component provide a fluent, object-oriented interface for working with multibyte string, allowing you to chain multiple string operations together using a more readable syntax compared to traditional PHP strings functions.",
+            "keywords": [
+                "glowy",
+                "glowyphp",
+                "php",
+                "php-strings",
+                "strings",
+                "strings-manipulation"
+            ],
+            "support": {
+                "issues": "https://github.com/glowyphp/strings/issues",
+                "source": "https://github.com/glowyphp/strings"
+            },
+            "time": "2022-07-03T15:53:05+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -2775,6 +2891,57 @@
                 "source": "https://github.com/dompdf/php-svg-lib/tree/0.5.4"
             },
             "time": "2024-04-08T12:52:34+00:00"
+        },
+        {
+            "name": "phpbench/dom",
+            "version": "0.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpbench/dom.git",
+                "reference": "786a96db538d0def931f5b19225233ec42ec7a72"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpbench/dom/zipball/786a96db538d0def931f5b19225233ec42ec7a72",
+                "reference": "786a96db538d0def931f5b19225233ec42ec7a72",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "php": "^7.3||^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.14",
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^8.0||^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PhpBench\\Dom\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Leech",
+                    "email": "daniel@dantleech.com"
+                }
+            ],
+            "description": "DOM wrapper to simplify working with the PHP DOM implementation",
+            "support": {
+                "issues": "https://github.com/phpbench/dom/issues",
+                "source": "https://github.com/phpbench/dom/tree/0.3.3"
+            },
+            "time": "2023-03-06T23:46:57+00:00"
         },
         {
             "name": "phpoption/phpoption",
